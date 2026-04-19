@@ -120,6 +120,29 @@
   .fade-in{opacity:0;transform:translateY(30px);transition:.8s}
   .fade-in.visible{opacity:1;transform:translateY(0)}
 
+  .cert-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:2rem}
+  .cert-card{background:var(--card);border-radius:15px;overflow:hidden;
+    border:1px solid rgba(255,255,255,.08);transition:.3s;cursor:pointer}
+  .cert-card:hover{transform:translateY(-10px);border-color:var(--accent);
+    box-shadow:0 20px 40px rgba(99,102,241,.2)}
+  .cert-img{width:100%;aspect-ratio:4/3;object-fit:cover;background:var(--bg2);
+    border-bottom:1px solid rgba(255,255,255,.08)}
+  .cert-placeholder{width:100%;aspect-ratio:4/3;
+    background:linear-gradient(135deg,var(--accent),var(--accent2));
+    display:flex;align-items:center;justify-content:center;font-size:4rem}
+  .cert-body{padding:1.2rem}
+  .cert-body h3{font-size:1.1rem;margin-bottom:.4rem}
+  .cert-body p{color:var(--muted);font-size:.9rem;margin-bottom:.3rem}
+  .cert-date{color:var(--accent);font-size:.85rem;font-weight:500}
+
+  .modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.9);
+    z-index:1000;align-items:center;justify-content:center;padding:2rem;cursor:zoom-out}
+  .modal.active{display:flex}
+  .modal img{max-width:100%;max-height:90vh;border-radius:10px;
+    box-shadow:0 20px 60px rgba(0,0,0,.5)}
+  .modal-close{position:absolute;top:1rem;right:1.5rem;color:white;
+    font-size:2.5rem;cursor:pointer;background:none;border:none}
+
   .lang-btn{background:linear-gradient(135deg,var(--accent),var(--accent2));color:white;
     border:none;padding:.4rem 1rem;border-radius:20px;cursor:pointer;font-weight:500;
     font-family:'Prompt',sans-serif;font-size:.85rem;transition:.3s;display:inline-flex;
@@ -137,6 +160,7 @@
     <li><a href="#education" data-i18n="nav.education">การศึกษา</a></li>
     <li><a href="#skills" data-i18n="nav.skills">ทักษะ</a></li>
     <li><a href="#projects" data-i18n="nav.projects">ผลงาน</a></li>
+    <li><a href="#certificates" data-i18n="nav.certificates">เกียรติบัตร</a></li>
     <li><a href="#contact" data-i18n="nav.contact">ติดต่อ</a></li>
     <li><button id="langBtn" class="lang-btn" title="Switch language">🌐 <span id="langLabel">EN</span></button></li>
   </ul>
@@ -260,6 +284,52 @@
   </div>
 </section>
 
+<section id="certificates" class="fade-in">
+  <h2 class="section-title" data-i18n-html="cert.title">เกียรติ<span>บัตร</span></h2>
+  <div class="cert-grid">
+    <div class="cert-card" onclick="openModal(this)">
+      <div class="cert-placeholder">🏆</div>
+      <div class="cert-body">
+        <h3 data-i18n="cert.c1.title">ชื่อเกียรติบัตร 1</h3>
+        <p data-i18n="cert.c1.org">ผู้ออก: องค์กร/สถาบัน</p>
+        <p class="cert-date" data-i18n="cert.c1.date">📅 2024</p>
+      </div>
+    </div>
+    <div class="cert-card" onclick="openModal(this)">
+      <div class="cert-placeholder">🎖️</div>
+      <div class="cert-body">
+        <h3 data-i18n="cert.c2.title">ชื่อเกียรติบัตร 2</h3>
+        <p data-i18n="cert.c2.org">ผู้ออก: องค์กร/สถาบัน</p>
+        <p class="cert-date" data-i18n="cert.c2.date">📅 2024</p>
+      </div>
+    </div>
+    <div class="cert-card" onclick="openModal(this)">
+      <div class="cert-placeholder">📜</div>
+      <div class="cert-body">
+        <h3 data-i18n="cert.c3.title">ชื่อเกียรติบัตร 3</h3>
+        <p data-i18n="cert.c3.org">ผู้ออก: องค์กร/สถาบัน</p>
+        <p class="cert-date" data-i18n="cert.c3.date">📅 2023</p>
+      </div>
+    </div>
+    <div class="cert-card" onclick="openModal(this)">
+      <div class="cert-placeholder">🥇</div>
+      <div class="cert-body">
+        <h3 data-i18n="cert.c4.title">ชื่อเกียรติบัตร 4</h3>
+        <p data-i18n="cert.c4.org">ผู้ออก: องค์กร/สถาบัน</p>
+        <p class="cert-date" data-i18n="cert.c4.date">📅 2023</p>
+      </div>
+    </div>
+  </div>
+  <p style="text-align:center;color:var(--muted);margin-top:2rem;font-size:.9rem" data-i18n="cert.note">
+    💡 แก้ไขหัวข้อและเปลี่ยนเป็นรูปจริงได้โดยแทนที่ cert-placeholder ด้วย &lt;img class="cert-img" src="cert1.jpg"&gt;
+  </p>
+</section>
+
+<div id="certModal" class="modal" onclick="closeModal()">
+  <button class="modal-close" onclick="closeModal()">&times;</button>
+  <img id="modalImg" src="" alt="Certificate">
+</div>
+
 <section id="contact" class="fade-in" style="display:flex;flex-direction:column;align-items:center">
   <h2 class="section-title" data-i18n-html="contact.title">ติดต่อ<span>ผม</span></h2>
   <div class="contact">
@@ -299,7 +369,13 @@
   const translations = {
     th: {
       'nav.home':'หน้าแรก','nav.about':'เกี่ยวกับ','nav.education':'การศึกษา',
-      'nav.skills':'ทักษะ','nav.projects':'ผลงาน','nav.contact':'ติดต่อ',
+      'nav.skills':'ทักษะ','nav.projects':'ผลงาน','nav.certificates':'เกียรติบัตร','nav.contact':'ติดต่อ',
+      'cert.title':'เกียรติ<span>บัตร</span>',
+      'cert.c1.title':'ชื่อเกียรติบัตร 1','cert.c1.org':'ผู้ออก: องค์กร/สถาบัน','cert.c1.date':'📅 2024',
+      'cert.c2.title':'ชื่อเกียรติบัตร 2','cert.c2.org':'ผู้ออก: องค์กร/สถาบัน','cert.c2.date':'📅 2024',
+      'cert.c3.title':'ชื่อเกียรติบัตร 3','cert.c3.org':'ผู้ออก: องค์กร/สถาบัน','cert.c3.date':'📅 2023',
+      'cert.c4.title':'ชื่อเกียรติบัตร 4','cert.c4.org':'ผู้ออก: องค์กร/สถาบัน','cert.c4.date':'📅 2023',
+      'cert.note':'💡 แก้ไขหัวข้อและเปลี่ยนเป็นรูปจริงได้โดยแทนที่ cert-placeholder ด้วย <img class="cert-img" src="cert1.jpg">',
       'hero.greet':'สวัสดีครับ 👋','hero.im':'ผมคือ','hero.name':'วงศกร ศรีทองเทศ',
       'hero.role':'Computer Engineer','hero.desc':'สร้างสรรค์เว็บไซต์ที่สวยงาม ใช้งานง่าย และตอบโจทย์ธุรกิจ',
       'hero.btnProjects':'ดูผลงาน →','hero.btnContact':'ติดต่อผม',
@@ -334,7 +410,13 @@
     },
     en: {
       'nav.home':'Home','nav.about':'About','nav.education':'Education',
-      'nav.skills':'Skills','nav.projects':'Projects','nav.contact':'Contact',
+      'nav.skills':'Skills','nav.projects':'Projects','nav.certificates':'Certificates','nav.contact':'Contact',
+      'cert.title':'Certi<span>ficates</span>',
+      'cert.c1.title':'Certificate Name 1','cert.c1.org':'Issuer: Organization','cert.c1.date':'📅 2024',
+      'cert.c2.title':'Certificate Name 2','cert.c2.org':'Issuer: Organization','cert.c2.date':'📅 2024',
+      'cert.c3.title':'Certificate Name 3','cert.c3.org':'Issuer: Organization','cert.c3.date':'📅 2023',
+      'cert.c4.title':'Certificate Name 4','cert.c4.org':'Issuer: Organization','cert.c4.date':'📅 2023',
+      'cert.note':'💡 Replace cert-placeholder with <img class="cert-img" src="cert1.jpg"> to show real images',
       'hero.greet':'Hello there 👋','hero.im':"I'm",'hero.name':'Wongsakon Sritongted',
       'hero.role':'Computer Engineer','hero.desc':'Creating beautiful, user-friendly websites that solve business challenges',
       'hero.btnProjects':'View Projects →','hero.btnContact':'Contact Me',
@@ -392,6 +474,16 @@
   });
 
   applyLang(currentLang);
+
+  function openModal(card){
+    const img = card.querySelector('img.cert-img');
+    if(!img) return;
+    document.getElementById('modalImg').src = img.src;
+    document.getElementById('certModal').classList.add('active');
+  }
+  function closeModal(){
+    document.getElementById('certModal').classList.remove('active');
+  }
 </script>
 
 </body>
