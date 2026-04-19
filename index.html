@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>My Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;font-family:'Prompt',sans-serif}
+  :root{
+    --bg:#0f0f1e;--bg2:#1a1a2e;--accent:#6366f1;--accent2:#ec4899;
+    --text:#e5e7eb;--muted:#9ca3af;--card:rgba(255,255,255,0.05);
+  }
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--text);line-height:1.6;overflow-x:hidden}
+
+  nav{position:fixed;top:0;left:0;right:0;padding:1rem 2rem;z-index:100;
+    background:rgba(15,15,30,0.8);backdrop-filter:blur(10px);
+    display:flex;justify-content:space-between;align-items:center;
+    border-bottom:1px solid rgba(255,255,255,0.08)}
+  .logo{font-size:1.5rem;font-weight:700;
+    background:linear-gradient(135deg,var(--accent),var(--accent2));
+    -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+  nav ul{display:flex;gap:2rem;list-style:none}
+  nav a{color:var(--text);text-decoration:none;font-weight:400;transition:.3s;position:relative}
+  nav a:hover{color:var(--accent)}
+  nav a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:2px;
+    background:var(--accent);transition:.3s}
+  nav a:hover::after{width:100%}
+
+  .hero{min-height:100vh;display:flex;align-items:center;justify-content:center;
+    padding:0 2rem;position:relative;overflow:hidden}
+  .hero::before{content:'';position:absolute;width:500px;height:500px;
+    background:radial-gradient(circle,var(--accent) 0%,transparent 70%);
+    opacity:.2;top:10%;right:-10%;border-radius:50%;animation:float 8s ease-in-out infinite}
+  .hero::after{content:'';position:absolute;width:400px;height:400px;
+    background:radial-gradient(circle,var(--accent2) 0%,transparent 70%);
+    opacity:.15;bottom:10%;left:-5%;border-radius:50%;animation:float 10s ease-in-out infinite reverse}
+  @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-30px)}}
+  .hero-content{text-align:center;z-index:1;max-width:800px}
+  .hero .greet{color:var(--accent);font-size:1.1rem;margin-bottom:1rem;letter-spacing:2px}
+  .hero h1{font-size:clamp(2.5rem,6vw,4.5rem);font-weight:700;margin-bottom:1rem;line-height:1.2}
+  .hero h1 span{background:linear-gradient(135deg,var(--accent),var(--accent2));
+    -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+  .hero p{font-size:1.2rem;color:var(--muted);margin-bottom:2rem}
+  .btn-group{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
+  .btn{padding:.9rem 2rem;border-radius:50px;text-decoration:none;font-weight:500;
+    transition:.3s;display:inline-flex;align-items:center;gap:.5rem;cursor:pointer;border:none;font-size:1rem}
+  .btn-primary{background:linear-gradient(135deg,var(--accent),var(--accent2));color:white}
+  .btn-primary:hover{transform:translateY(-3px);box-shadow:0 10px 30px rgba(99,102,241,.4)}
+  .btn-outline{border:2px solid var(--accent);color:var(--text);background:transparent}
+  .btn-outline:hover{background:var(--accent);transform:translateY(-3px)}
+
+  section{padding:5rem 2rem;max-width:1200px;margin:0 auto}
+  .section-title{font-size:2.5rem;text-align:center;margin-bottom:3rem;font-weight:700}
+  .section-title span{background:linear-gradient(135deg,var(--accent),var(--accent2));
+    -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+
+  .about-grid{display:grid;grid-template-columns:1fr 2fr;gap:3rem;align-items:center}
+  .avatar{width:100%;aspect-ratio:1;border-radius:20px;
+    background:linear-gradient(135deg,var(--accent),var(--accent2));
+    display:flex;align-items:center;justify-content:center;
+    box-shadow:0 20px 50px rgba(99,102,241,.3);
+    padding:5px;overflow:hidden;position:relative;transition:.4s}
+  .avatar:hover{transform:translateY(-5px) scale(1.02);
+    box-shadow:0 30px 60px rgba(236,72,153,.4)}
+  .avatar img{width:100%;height:100%;object-fit:cover;border-radius:16px;
+    background:var(--bg2)}
+  .about-text p{color:var(--muted);margin-bottom:1rem;font-size:1.05rem}
+
+  .skills-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.5rem}
+  .skill-card{background:var(--card);padding:2rem;border-radius:15px;text-align:center;
+    border:1px solid rgba(255,255,255,.08);transition:.3s}
+  .skill-card:hover{transform:translateY(-10px);border-color:var(--accent);
+    box-shadow:0 20px 40px rgba(99,102,241,.2)}
+  .skill-icon{font-size:3rem;margin-bottom:1rem}
+  .skill-card h3{margin-bottom:.5rem}
+  .skill-card p{color:var(--muted);font-size:.9rem}
+
+  .projects-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:2rem}
+  .project-card{background:var(--card);border-radius:15px;overflow:hidden;
+    border:1px solid rgba(255,255,255,.08);transition:.3s}
+  .project-card:hover{transform:translateY(-10px);border-color:var(--accent2)}
+  .project-img{height:200px;background:linear-gradient(135deg,var(--accent),var(--accent2));
+    display:flex;align-items:center;justify-content:center;font-size:4rem}
+  .project-body{padding:1.5rem}
+  .project-body h3{margin-bottom:.5rem}
+  .project-body p{color:var(--muted);margin-bottom:1rem;font-size:.95rem}
+  .tags{display:flex;gap:.5rem;flex-wrap:wrap}
+  .tag{padding:.25rem .75rem;background:rgba(99,102,241,.2);color:var(--accent);
+    border-radius:20px;font-size:.8rem}
+
+  .contact{text-align:center;max-width:600px}
+  .contact p{color:var(--muted);margin-bottom:2rem;font-size:1.1rem}
+  .socials{display:flex;gap:1.5rem;justify-content:center;flex-wrap:wrap}
+  .social-link{width:50px;height:50px;border-radius:50%;background:var(--card);
+    display:flex;align-items:center;justify-content:center;text-decoration:none;
+    color:var(--text);transition:.3s;border:1px solid rgba(255,255,255,.1)}
+  .social-link svg{width:22px;height:22px;transition:.3s}
+  .social-link:hover{transform:translateY(-5px);border-color:transparent}
+  .social-link.email:hover{background:#ea4335;color:white}
+  .social-link.github:hover{background:#24292e;color:white}
+  .social-link.linkedin:hover{background:#0a66c2;color:white}
+  .social-link.facebook:hover{background:#1877f2;color:white}
+  .social-link.instagram:hover{background:linear-gradient(45deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888);color:white}
+
+  footer{text-align:center;padding:2rem;color:var(--muted);
+    border-top:1px solid rgba(255,255,255,.08)}
+
+  @media(max-width:768px){
+    nav{padding:1rem}
+    nav ul{gap:1rem;font-size:.9rem}
+    .about-grid{grid-template-columns:1fr}
+    .avatar{max-width:250px;margin:0 auto}
+    section{padding:3rem 1rem}
+  }
+
+  .fade-in{opacity:0;transform:translateY(30px);transition:.8s}
+  .fade-in.visible{opacity:1;transform:translateY(0)}
+
+  .lang-btn{background:linear-gradient(135deg,var(--accent),var(--accent2));color:white;
+    border:none;padding:.4rem 1rem;border-radius:20px;cursor:pointer;font-weight:500;
+    font-family:'Prompt',sans-serif;font-size:.85rem;transition:.3s;display:inline-flex;
+    align-items:center;gap:.3rem}
+  .lang-btn:hover{transform:translateY(-2px);box-shadow:0 5px 15px rgba(99,102,241,.4)}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">MyPort.</div>
+  <ul>
+    <li><a href="#home" data-i18n="nav.home">หน้าแรก</a></li>
+    <li><a href="#about" data-i18n="nav.about">เกี่ยวกับ</a></li>
+    <li><a href="#education" data-i18n="nav.education">การศึกษา</a></li>
+    <li><a href="#skills" data-i18n="nav.skills">ทักษะ</a></li>
+    <li><a href="#projects" data-i18n="nav.projects">ผลงาน</a></li>
+    <li><a href="#contact" data-i18n="nav.contact">ติดต่อ</a></li>
+    <li><button id="langBtn" class="lang-btn" title="Switch language">🌐 <span id="langLabel">EN</span></button></li>
+  </ul>
+</nav>
+
+<section class="hero" id="home">
+  <div class="hero-content">
+    <p class="greet" data-i18n="hero.greet">สวัสดีครับ 👋</p>
+    <h1><span data-i18n="hero.im">ผมคือ</span> <span data-i18n="hero.name">วงศกร ศรีทองเทศ</span><br/><span data-i18n="hero.role">Computer Engineer</span></h1>
+    <p data-i18n="hero.desc">สร้างสรรค์เว็บไซต์ที่สวยงาม ใช้งานง่าย และตอบโจทย์ธุรกิจ</p>
+    <div class="btn-group">
+      <a href="#projects" class="btn btn-primary" data-i18n="hero.btnProjects">ดูผลงาน →</a>
+      <a href="#contact" class="btn btn-outline" data-i18n="hero.btnContact">ติดต่อผม</a>
+    </div>
+  </div>
+</section>
+
+<section id="about" class="fade-in">
+  <h2 class="section-title" data-i18n-html="about.title">เกี่ยวกับ<span> ผม</span></h2>
+  <div class="about-grid">
+    <div class="avatar"><img src="profile.png" alt="Wongsakon Sritongted"></div>
+    <div class="about-text">
+      <p data-i18n="about.p1">สวัสดีครับ ผมชื่อ วงศกร ศรีทองเทศ นักศึกษาสาขาวิศวกรรมคอมพิวเตอร์ ที่หลงใหลในการสร้างสรรค์เทคโนโลยีและนวัตกรรมใหม่ๆ</p>
+      <p data-i18n="about.p2">มีประสบการณ์ในการพัฒนาทั้ง Web, Mobile Application, IoT และการออกแบบระบบ Hardware เช่น ESP32, FPGA พร้อมทั้งการจัดการ Database</p>
+      <p data-i18n="about.p3">สนใจการเรียนรู้สิ่งใหม่ๆ และพร้อมเปิดรับโอกาสในการทำงานร่วมกับทีม เพื่อพัฒนาทักษะและสร้างผลงานที่มีคุณภาพ</p>
+      <div style="display:flex;gap:1.5rem;flex-wrap:wrap;margin-top:1.5rem">
+        <div><strong style="color:var(--accent)">📞 <span data-i18n="about.phone">เบอร์:</span></strong> 063-3130850</div>
+        <div><strong style="color:var(--accent)">🌐 <span data-i18n="about.lang">ภาษา:</span></strong> <span data-i18n="about.langVal">ไทย, อังกฤษ</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="education" class="fade-in">
+  <h2 class="section-title" data-i18n-html="edu.title">การ<span>ศึกษา</span></h2>
+  <div style="max-width:800px;margin:0 auto;position:relative">
+    <div class="edu-item" style="background:var(--card);padding:2rem;border-radius:15px;border:1px solid rgba(255,255,255,.08);border-left:4px solid var(--accent);margin-bottom:1.5rem">
+      <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:.5rem;margin-bottom:.5rem">
+        <h3 style="color:var(--accent)"><span data-i18n="edu.uni">🎓 มหาวิทยาลัยศรีปทุม</span></h3>
+        <span style="color:var(--muted)" data-i18n="edu.uniYear">2023 - ปัจจุบัน</span>
+      </div>
+      <p style="color:var(--text);margin-bottom:.3rem" data-i18n="edu.uniDegree">ปริญญาตรี คณะเทคโนโลยี</p>
+      <p style="color:var(--muted)" data-i18n="edu.uniMajor">สาขาวิศวกรรมคอมพิวเตอร์</p>
+    </div>
+    <div class="edu-item" style="background:var(--card);padding:2rem;border-radius:15px;border:1px solid rgba(255,255,255,.08);border-left:4px solid var(--accent2)">
+      <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:.5rem;margin-bottom:.5rem">
+        <h3 style="color:var(--accent2)"><span data-i18n="edu.hs">🏫 โรงเรียนดรุณาราชบุรี</span></h3>
+        <span style="color:var(--muted)" data-i18n="edu.hsYear">2020 - 2022</span>
+      </div>
+      <p style="color:var(--text);margin-bottom:.3rem" data-i18n="edu.hsDegree">มัธยมศึกษาตอนปลาย</p>
+      <p style="color:var(--muted)" data-i18n="edu.hsMajor">แผนการเรียน วิทย์ - คณิต</p>
+    </div>
+  </div>
+</section>
+
+<section id="skills" class="fade-in">
+  <h2 class="section-title" data-i18n-html="skills.title">ทักษะ<span>ของผม</span></h2>
+  <div class="skills-grid">
+    <div class="skill-card"><div class="skill-icon">🎨</div><h3>Frontend</h3><p>HTML, CSS, JavaScript, React</p></div>
+    <div class="skill-card"><div class="skill-icon">⚙️</div><h3>Backend</h3><p>Node.js, Python, PHP, Express</p></div>
+    <div class="skill-card"><div class="skill-icon">🗄️</div><h3>Database</h3><p>MySQL, MongoDB, PostgreSQL, Supabase</p></div>
+    <div class="skill-card"><div class="skill-icon">📱</div><h3>Mobile</h3><p>React Native, Expo</p></div>
+    <div class="skill-card"><div class="skill-icon">🔌</div><h3 data-i18n="skill.iot">IoT & Hardware</h3><p data-i18n="skill.iotDesc">ESP32, Arduino, Sensor Design</p></div>
+    <div class="skill-card"><div class="skill-icon">💾</div><h3>FPGA / SoC</h3><p>Xilinx, VHDL, Verilog, CPU 8-bit</p></div>
+    <div class="skill-card"><div class="skill-icon">🛠️</div><h3 data-i18n="skill.tools">Tools</h3><p>Git, VS Code, Figma, Xilinx ISE</p></div>
+    <div class="skill-card"><div class="skill-icon">📋</div><h3 data-i18n="skill.std">Standard</h3><p data-i18n="skill.stdDesc">ISO 29110 Document Management</p></div>
+  </div>
+</section>
+
+<section id="projects" class="fade-in">
+  <h2 class="section-title" data-i18n-html="proj.title">ผลงาน<span>ของผม</span></h2>
+  <div class="projects-grid">
+    <div class="project-card">
+      <div class="project-img">🥕</div>
+      <div class="project-body">
+        <h3 data-i18n="proj.p1.title">Application V-Fresh</h3>
+        <p data-i18n="proj.p1.desc">แอปพลิเคชันสำหรับสั่งซื้อผักผลไม้สดจากฟาร์มถึงบ้านเพื่อเกษตรกร</p>
+        <div class="tags"><span class="tag">React Native</span><span class="tag">Expo</span><span class="tag">Supabase</span></div>
+      </div>
+    </div>
+    <div class="project-card">
+      <div class="project-img">🌱</div>
+      <div class="project-body">
+        <h3 data-i18n="proj.p2.title">ระบบการจัดการเกษตรอัจฉริยะ</h3>
+        <p data-i18n="proj.p2.desc">ออกแบบบอร์ด ESP32 และสั่งทำเพื่อใช้งานจริง พร้อมระบบควบคุมการเกษตรแบบอัตโนมัติ</p>
+        <div class="tags"><span class="tag">ESP32</span><span class="tag">IoT</span><span class="tag">PCB Design</span></div>
+      </div>
+    </div>
+    <div class="project-card">
+      <div class="project-img">📚</div>
+      <div class="project-body">
+        <h3 data-i18n="proj.p3.title">ระบบจัดการห้องสมุดด้วย SQL</h3>
+        <p data-i18n="proj.p3.desc">ออกแบบ Database และพัฒนา Backend บางส่วนสำหรับระบบจัดการหนังสือและสมาชิก</p>
+        <div class="tags"><span class="tag">SQL</span><span class="tag">Database Design</span><span class="tag">Backend</span></div>
+      </div>
+    </div>
+    <div class="project-card">
+      <div class="project-img">🦐</div>
+      <div class="project-body">
+        <h3 data-i18n="proj.p4.title">ฟาร์มกุ้ง IoT</h3>
+        <p data-i18n="proj.p4.desc">จัดการระบบ Database สำหรับฟาร์มกุ้งอัจฉริยะ เก็บข้อมูลคุณภาพน้ำและสภาพแวดล้อม</p>
+        <div class="tags"><span class="tag">IoT</span><span class="tag">Database</span><span class="tag">Sensors</span></div>
+      </div>
+    </div>
+    <div class="project-card">
+      <div class="project-img">🖥️</div>
+      <div class="project-body">
+        <h3 data-i18n="proj.p5.title">ออกแบบ CPU 8-bit</h3>
+        <p data-i18n="proj.p5.desc">ออกแบบการทำงานของ CPU 8 บิต เขียนโค้ดด้วยภาษา VHDL และ Verilog สำหรับ FPGA และ SoC ด้วย Xilinx</p>
+        <div class="tags"><span class="tag">VHDL</span><span class="tag">Verilog</span><span class="tag">FPGA</span><span class="tag">Xilinx</span></div>
+      </div>
+    </div>
+    <div class="project-card">
+      <div class="project-img">📄</div>
+      <div class="project-body">
+        <h3 data-i18n="proj.p6.title">การจัดทำเอกสาร ISO 29110</h3>
+        <p data-i18n="proj.p6.desc">จัดทำและบริหารจัดการเอกสารตามมาตรฐาน ISO 29110 สำหรับกระบวนการพัฒนาซอฟต์แวร์</p>
+        <div class="tags"><span class="tag">ISO 29110</span><span class="tag">Documentation</span><span class="tag">SE</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contact" class="fade-in" style="display:flex;flex-direction:column;align-items:center">
+  <h2 class="section-title" data-i18n-html="contact.title">ติดต่อ<span>ผม</span></h2>
+  <div class="contact">
+    <p data-i18n="contact.desc">สนใจร่วมงาน ติดต่อผมได้เลย!</p>
+    <p style="margin-bottom:1rem"><strong style="color:var(--accent)">📧 Email:</strong> wongsakon20172547@gmail.com</p>
+    <p style="margin-bottom:2rem"><strong style="color:var(--accent)">📞 Tel:</strong> 063-3130850</p>
+    <div class="socials">
+      <a href="mailto:wongsakon20172547@gmail.com" class="social-link email" title="Email">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+      </a>
+      <a href="https://github.com/Few-zzz" target="_blank" class="social-link github" title="GitHub">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.387.6.11.82-.26.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.387-1.333-1.756-1.333-1.756-1.09-.745.083-.73.083-.73 1.205.085 1.838 1.237 1.838 1.237 1.07 1.834 2.809 1.304 3.495.997.108-.775.418-1.305.762-1.605-2.665-.3-5.467-1.332-5.467-5.93 0-1.31.468-2.38 1.236-3.22-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.3 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.29-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.91 1.235 3.22 0 4.61-2.807 5.625-5.48 5.92.43.372.814 1.102.814 2.222 0 1.606-.015 2.898-.015 3.293 0 .32.217.694.825.576C20.565 21.796 24 17.3 24 12c0-6.63-5.37-12-12-12z"/></svg>
+      </a>
+      <a href="https://www.linkedin.com/in/wongsakon-sritongted-791a85290" target="_blank" class="social-link linkedin" title="LinkedIn">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+      </a>
+      <a href="https://web.facebook.com/wongsakon.sritongted" target="_blank" class="social-link facebook" title="Facebook">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+      </a>
+      <a href="https://www.instagram.com/z__few__z" target="_blank" class="social-link instagram" title="Instagram">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>© 2026 My Portfolio. Made with ❤️</p>
+</footer>
+
+<script>
+  const observer = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('visible'); });
+  },{threshold:.15});
+  document.querySelectorAll('.fade-in').forEach(el=>observer.observe(el));
+
+  const translations = {
+    th: {
+      'nav.home':'หน้าแรก','nav.about':'เกี่ยวกับ','nav.education':'การศึกษา',
+      'nav.skills':'ทักษะ','nav.projects':'ผลงาน','nav.contact':'ติดต่อ',
+      'hero.greet':'สวัสดีครับ 👋','hero.im':'ผมคือ','hero.name':'วงศกร ศรีทองเทศ',
+      'hero.role':'Computer Engineer','hero.desc':'สร้างสรรค์เว็บไซต์ที่สวยงาม ใช้งานง่าย และตอบโจทย์ธุรกิจ',
+      'hero.btnProjects':'ดูผลงาน →','hero.btnContact':'ติดต่อผม',
+      'about.title':'เกี่ยวกับ<span> ผม</span>',
+      'about.p1':'สวัสดีครับ ผมชื่อ วงศกร ศรีทองเทศ นักศึกษาสาขาวิศวกรรมคอมพิวเตอร์ ที่หลงใหลในการสร้างสรรค์เทคโนโลยีและนวัตกรรมใหม่ๆ',
+      'about.p2':'มีประสบการณ์ในการพัฒนาทั้ง Web, Mobile Application, IoT และการออกแบบระบบ Hardware เช่น ESP32, FPGA พร้อมทั้งการจัดการ Database',
+      'about.p3':'สนใจการเรียนรู้สิ่งใหม่ๆ และพร้อมเปิดรับโอกาสในการทำงานร่วมกับทีม เพื่อพัฒนาทักษะและสร้างผลงานที่มีคุณภาพ',
+      'about.phone':'เบอร์:','about.lang':'ภาษา:','about.langVal':'ไทย, อังกฤษ',
+      'edu.title':'การ<span>ศึกษา</span>',
+      'edu.uni':'🎓 มหาวิทยาลัยศรีปทุม','edu.uniYear':'2023 - ปัจจุบัน',
+      'edu.uniDegree':'ปริญญาตรี คณะเทคโนโลยี','edu.uniMajor':'สาขาวิศวกรรมคอมพิวเตอร์',
+      'edu.hs':'🏫 โรงเรียนดรุณาราชบุรี','edu.hsYear':'2020 - 2022',
+      'edu.hsDegree':'มัธยมศึกษาตอนปลาย','edu.hsMajor':'แผนการเรียน วิทย์ - คณิต',
+      'skills.title':'ทักษะ<span>ของผม</span>',
+      'skill.iot':'IoT & Hardware','skill.iotDesc':'ESP32, Arduino, ออกแบบเซ็นเซอร์',
+      'skill.tools':'เครื่องมือ','skill.std':'มาตรฐาน','skill.stdDesc':'การจัดทำเอกสาร ISO 29110',
+      'proj.title':'ผลงาน<span>ของผม</span>',
+      'proj.p1.title':'แอปพลิเคชัน V-Fresh',
+      'proj.p1.desc':'แอปพลิเคชันสำหรับสั่งซื้อผักผลไม้สดจากฟาร์มถึงบ้านเพื่อเกษตรกร',
+      'proj.p2.title':'ระบบการจัดการเกษตรอัจฉริยะ',
+      'proj.p2.desc':'ออกแบบบอร์ด ESP32 และสั่งทำเพื่อใช้งานจริง พร้อมระบบควบคุมการเกษตรแบบอัตโนมัติ',
+      'proj.p3.title':'ระบบจัดการห้องสมุดด้วย SQL',
+      'proj.p3.desc':'ออกแบบ Database และพัฒนา Backend บางส่วนสำหรับระบบจัดการหนังสือและสมาชิก',
+      'proj.p4.title':'ฟาร์มกุ้ง IoT',
+      'proj.p4.desc':'จัดการระบบ Database สำหรับฟาร์มกุ้งอัจฉริยะ เก็บข้อมูลคุณภาพน้ำและสภาพแวดล้อม',
+      'proj.p5.title':'ออกแบบ CPU 8-bit',
+      'proj.p5.desc':'ออกแบบการทำงานของ CPU 8 บิต เขียนโค้ดด้วยภาษา VHDL และ Verilog สำหรับ FPGA และ SoC ด้วย Xilinx',
+      'proj.p6.title':'การจัดทำเอกสาร ISO 29110',
+      'proj.p6.desc':'จัดทำและบริหารจัดการเอกสารตามมาตรฐาน ISO 29110 สำหรับกระบวนการพัฒนาซอฟต์แวร์',
+      'contact.title':'ติดต่อ<span>ผม</span>',
+      'contact.desc':'สนใจร่วมงาน ติดต่อผมได้เลย!'
+    },
+    en: {
+      'nav.home':'Home','nav.about':'About','nav.education':'Education',
+      'nav.skills':'Skills','nav.projects':'Projects','nav.contact':'Contact',
+      'hero.greet':'Hello there 👋','hero.im':"I'm",'hero.name':'Wongsakon Sritongted',
+      'hero.role':'Computer Engineer','hero.desc':'Creating beautiful, user-friendly websites that solve business challenges',
+      'hero.btnProjects':'View Projects →','hero.btnContact':'Contact Me',
+      'about.title':'About <span>Me</span>',
+      'about.p1':"Hi, I'm Wongsakon Sritongted, a Computer Engineering student passionate about creating technology and innovation.",
+      'about.p2':'Experienced in developing Web, Mobile Applications, IoT, and Hardware design such as ESP32, FPGA, along with Database management.',
+      'about.p3':'Always eager to learn new things and open to opportunities to work with a team to develop skills and produce quality work.',
+      'about.phone':'Phone:','about.lang':'Languages:','about.langVal':'Thai, English',
+      'edu.title':'Edu<span>cation</span>',
+      'edu.uni':'🎓 Sripatum University','edu.uniYear':'2023 - Present',
+      'edu.uniDegree':"Bachelor's Degree, School of Technology",'edu.uniMajor':'Computer Engineering',
+      'edu.hs':'🏫 Darunaratchaburi School','edu.hsYear':'2020 - 2022',
+      'edu.hsDegree':'High School','edu.hsMajor':'Science - Mathematics Program',
+      'skills.title':'My <span>Skills</span>',
+      'skill.iot':'IoT & Hardware','skill.iotDesc':'ESP32, Arduino, Sensor Design',
+      'skill.tools':'Tools','skill.std':'Standard','skill.stdDesc':'ISO 29110 Document Management',
+      'proj.title':'My <span>Projects</span>',
+      'proj.p1.title':'V-Fresh Application',
+      'proj.p1.desc':'Mobile app for ordering fresh produce from farm to home, supporting local farmers',
+      'proj.p2.title':'Smart Agriculture System',
+      'proj.p2.desc':'Custom-designed ESP32 board for real-world use with automated agricultural control',
+      'proj.p3.title':'Library Management System with SQL',
+      'proj.p3.desc':'Database design and partial backend development for book and member management',
+      'proj.p4.title':'IoT Shrimp Farm',
+      'proj.p4.desc':'Database management for smart shrimp farm, collecting water quality and environmental data',
+      'proj.p5.title':'8-bit CPU Design',
+      'proj.p5.desc':'Designed 8-bit CPU architecture, coded in VHDL and Verilog for FPGA and SoC using Xilinx',
+      'proj.p6.title':'ISO 29110 Documentation',
+      'proj.p6.desc':'Prepared and managed documentation following ISO 29110 standards for software development',
+      'contact.title':'Contact <span>Me</span>',
+      'contact.desc':"Interested in collaborating? Feel free to reach out!"
+    }
+  };
+
+  let currentLang = localStorage.getItem('lang') || 'th';
+
+  function applyLang(lang){
+    const dict = translations[lang];
+    document.querySelectorAll('[data-i18n]').forEach(el=>{
+      const key = el.getAttribute('data-i18n');
+      if(dict[key] !== undefined) el.textContent = dict[key];
+    });
+    document.querySelectorAll('[data-i18n-html]').forEach(el=>{
+      const key = el.getAttribute('data-i18n-html');
+      if(dict[key] !== undefined) el.innerHTML = dict[key];
+    });
+    document.documentElement.lang = lang;
+    document.getElementById('langLabel').textContent = lang === 'th' ? 'EN' : 'TH';
+    currentLang = lang;
+    localStorage.setItem('lang', lang);
+  }
+
+  document.getElementById('langBtn').addEventListener('click', ()=>{
+    applyLang(currentLang === 'th' ? 'en' : 'th');
+  });
+
+  applyLang(currentLang);
+</script>
+
+</body>
+</html>
