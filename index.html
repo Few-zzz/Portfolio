@@ -7,6 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 <style>
   *{margin:0;padding:0;box-sizing:border-box;font-family:'Prompt',sans-serif}
   :root{
@@ -75,7 +76,10 @@
     border:1px solid rgba(255,255,255,.08);transition:.3s}
   .skill-card:hover{transform:translateY(-10px);border-color:var(--accent);
     box-shadow:0 20px 40px rgba(99,102,241,.2)}
-  .skill-icon{font-size:3rem;margin-bottom:1rem}
+  .skill-icon{font-size:2.8rem;margin-bottom:1rem;
+    background:linear-gradient(135deg,var(--accent),var(--accent2));
+    -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+    display:inline-block}
   .skill-card h3{margin-bottom:.5rem}
   .skill-card p{color:var(--muted);font-size:.9rem}
 
@@ -84,7 +88,7 @@
     border:1px solid rgba(255,255,255,.08);transition:.3s}
   .project-card:hover{transform:translateY(-10px);border-color:var(--accent2)}
   .project-img{height:200px;background:linear-gradient(135deg,var(--accent),var(--accent2));
-    display:flex;align-items:center;justify-content:center;font-size:4rem}
+    display:flex;align-items:center;justify-content:center;font-size:4rem;color:#fff}
   .project-body{padding:1.5rem}
   .project-body h3{margin-bottom:.5rem}
   .project-body p{color:var(--muted);margin-bottom:1rem;font-size:.95rem}
@@ -141,7 +145,22 @@
   .modal img{max-width:100%;max-height:90vh;border-radius:10px;
     box-shadow:0 20px 60px rgba(0,0,0,.5)}
   .modal-close{position:absolute;top:1rem;right:1.5rem;color:white;
-    font-size:2.5rem;cursor:pointer;background:none;border:none}
+    font-size:2.5rem;cursor:pointer;background:none;border:none;z-index:1001}
+
+  .pdf-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.92);
+    z-index:1000;align-items:center;justify-content:center;padding:2rem;flex-direction:column;gap:1rem}
+  .pdf-modal.active{display:flex}
+  .pdf-modal iframe{width:min(1000px,95vw);height:90vh;border:none;border-radius:10px;
+    background:#fff;box-shadow:0 20px 60px rgba(0,0,0,.5)}
+  .pdf-modal .pdf-open-new{color:#fff;text-decoration:none;font-size:.9rem;
+    padding:.4rem 1rem;background:rgba(255,255,255,.15);border-radius:20px;transition:.3s}
+  .pdf-modal .pdf-open-new:hover{background:var(--accent)}
+
+  .project-card[data-pdf]{cursor:pointer;position:relative}
+  .project-card[data-pdf]::after{content:'\f1c1  PDF';font-family:'Font Awesome 6 Free','Prompt',sans-serif;
+    font-weight:900;position:absolute;top:.75rem;right:.75rem;
+    background:rgba(99,102,241,.9);color:#fff;font-size:.75rem;padding:.25rem .6rem;
+    border-radius:20px}
 
   .lang-btn{background:linear-gradient(135deg,var(--accent),var(--accent2));color:white;
     border:none;padding:.4rem 1rem;border-radius:20px;cursor:pointer;font-weight:500;
@@ -162,13 +181,13 @@
     <li><a href="#projects" data-i18n="nav.projects">ผลงาน</a></li>
     <li><a href="#certificates" data-i18n="nav.certificates">เกียรติบัตร</a></li>
     <li><a href="#contact" data-i18n="nav.contact">ติดต่อ</a></li>
-    <li><button id="langBtn" class="lang-btn" title="Switch language">🌐 <span id="langLabel">EN</span></button></li>
+    <li><button id="langBtn" class="lang-btn" title="Switch language"><i class="fa-solid fa-globe"></i> <span id="langLabel">EN</span></button></li>
   </ul>
 </nav>
 
 <section class="hero" id="home">
   <div class="hero-content">
-    <p class="greet" data-i18n="hero.greet">สวัสดีครับ 👋</p>
+    <p class="greet" data-i18n="hero.greet">สวัสดีครับ</p>
     <h1><span data-i18n="hero.im">ผมคือ</span> <span data-i18n="hero.name">วงศกร ศรีทองเทศ</span><br/><span data-i18n="hero.role">Computer Engineer</span></h1>
     <p data-i18n="hero.desc">สร้างสรรค์เว็บไซต์ที่สวยงาม ใช้งานง่าย และตอบโจทย์ธุรกิจ</p>
     <div class="btn-group">
@@ -187,8 +206,8 @@
       <p data-i18n="about.p2">มีประสบการณ์ในการพัฒนาทั้ง Web, Mobile Application, IoT และการออกแบบระบบ Hardware เช่น ESP32, FPGA พร้อมทั้งการจัดการ Database</p>
       <p data-i18n="about.p3">สนใจการเรียนรู้สิ่งใหม่ๆ และพร้อมเปิดรับโอกาสในการทำงานร่วมกับทีม เพื่อพัฒนาทักษะและสร้างผลงานที่มีคุณภาพ</p>
       <div style="display:flex;gap:1.5rem;flex-wrap:wrap;margin-top:1.5rem">
-        <div><strong style="color:var(--accent)">📞 <span data-i18n="about.phone">เบอร์:</span></strong> 063-3130850</div>
-        <div><strong style="color:var(--accent)">🌐 <span data-i18n="about.lang">ภาษา:</span></strong> <span data-i18n="about.langVal">ไทย, อังกฤษ</span></div>
+        <div><strong style="color:var(--accent)"><i class="fa-solid fa-phone"></i> <span data-i18n="about.phone">เบอร์:</span></strong> 063-3130850</div>
+        <div><strong style="color:var(--accent)"><i class="fa-solid fa-language"></i> <span data-i18n="about.lang">ภาษา:</span></strong> <span data-i18n="about.langVal">ไทย, อังกฤษ</span></div>
       </div>
     </div>
   </div>
@@ -199,7 +218,7 @@
   <div style="max-width:800px;margin:0 auto;position:relative">
     <div class="edu-item" style="background:var(--card);padding:2rem;border-radius:15px;border:1px solid rgba(255,255,255,.08);border-left:4px solid var(--accent);margin-bottom:1.5rem">
       <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:.5rem;margin-bottom:.5rem">
-        <h3 style="color:var(--accent)"><span data-i18n="edu.uni">🎓 มหาวิทยาลัยศรีปทุม</span></h3>
+        <h3 style="color:var(--accent)"><i class="fa-solid fa-graduation-cap"></i> <span data-i18n="edu.uni">มหาวิทยาลัยศรีปทุม</span></h3>
         <span style="color:var(--muted)" data-i18n="edu.uniYear">2023 - ปัจจุบัน</span>
       </div>
       <p style="color:var(--text);margin-bottom:.3rem" data-i18n="edu.uniDegree">ปริญญาตรี คณะเทคโนโลยี</p>
@@ -207,7 +226,7 @@
     </div>
     <div class="edu-item" style="background:var(--card);padding:2rem;border-radius:15px;border:1px solid rgba(255,255,255,.08);border-left:4px solid var(--accent2)">
       <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:.5rem;margin-bottom:.5rem">
-        <h3 style="color:var(--accent2)"><span data-i18n="edu.hs">🏫 โรงเรียนดรุณาราชบุรี</span></h3>
+        <h3 style="color:var(--accent2)"><i class="fa-solid fa-school"></i> <span data-i18n="edu.hs">โรงเรียนดรุณาราชบุรี</span></h3>
         <span style="color:var(--muted)" data-i18n="edu.hsYear">2020 - 2022</span>
       </div>
       <p style="color:var(--text);margin-bottom:.3rem" data-i18n="edu.hsDegree">มัธยมศึกษาตอนปลาย</p>
@@ -219,21 +238,21 @@
 <section id="skills" class="fade-in">
   <h2 class="section-title" data-i18n-html="skills.title">ทักษะ<span>ของผม</span></h2>
   <div class="skills-grid">
-    <div class="skill-card"><div class="skill-icon">🎨</div><h3>Frontend</h3><p>HTML, CSS, JavaScript, React</p></div>
-    <div class="skill-card"><div class="skill-icon">⚙️</div><h3>Backend</h3><p>Node.js, Python, PHP, Express</p></div>
-    <div class="skill-card"><div class="skill-icon">🗄️</div><h3>Database</h3><p>MySQL, MongoDB, PostgreSQL, Supabase</p></div>
-    <div class="skill-card"><div class="skill-icon">📱</div><h3>Mobile</h3><p>React Native, Expo</p></div>
-    <div class="skill-card"><div class="skill-icon">🔌</div><h3 data-i18n="skill.iot">IoT & Hardware</h3><p data-i18n="skill.iotDesc">ESP32, Arduino, Sensor Design</p></div>
-    <div class="skill-card"><div class="skill-icon">💾</div><h3>FPGA / SoC</h3><p>Xilinx, VHDL, Verilog, CPU 8-bit</p></div>
-    <div class="skill-card"><div class="skill-icon">🛠️</div><h3 data-i18n="skill.tools">Tools</h3><p>Git, VS Code, Figma, Xilinx ISE</p></div>
-    <div class="skill-card"><div class="skill-icon">📋</div><h3 data-i18n="skill.std">Standard</h3><p data-i18n="skill.stdDesc">ISO 29110 Document Management</p></div>
+    <div class="skill-card"><div class="skill-icon"><i class="fa-solid fa-code"></i></div><h3>Frontend</h3><p>HTML, CSS, JavaScript, React</p></div>
+    <div class="skill-card"><div class="skill-icon"><i class="fa-solid fa-server"></i></div><h3>Backend</h3><p>Node.js, Python, PHP, Express</p></div>
+    <div class="skill-card"><div class="skill-icon"><i class="fa-solid fa-database"></i></div><h3>Database</h3><p>MySQL, MongoDB, PostgreSQL, Supabase</p></div>
+    <div class="skill-card"><div class="skill-icon"><i class="fa-solid fa-mobile-screen"></i></div><h3>Mobile</h3><p>React Native, Expo</p></div>
+    <div class="skill-card"><div class="skill-icon"><i class="fa-solid fa-microchip"></i></div><h3 data-i18n="skill.iot">IoT & Hardware</h3><p data-i18n="skill.iotDesc">ESP32, Arduino, Sensor Design</p></div>
+    <div class="skill-card"><div class="skill-icon"><i class="fa-solid fa-memory"></i></div><h3>FPGA / SoC</h3><p>Xilinx, VHDL, Verilog, CPU 8-bit</p></div>
+    <div class="skill-card"><div class="skill-icon"><i class="fa-solid fa-screwdriver-wrench"></i></div><h3 data-i18n="skill.tools">Tools</h3><p>Git, VS Code, Figma, Xilinx ISE</p></div>
+    <div class="skill-card"><div class="skill-icon"><i class="fa-solid fa-clipboard-check"></i></div><h3 data-i18n="skill.std">Standard</h3><p data-i18n="skill.stdDesc">ISO 29110 Document Management</p></div>
   </div>
 </section>
 
 <section id="projects" class="fade-in">
   <h2 class="section-title" data-i18n-html="proj.title">ผลงาน<span>ของผม</span></h2>
   <div class="projects-grid">
-    <div class="project-card">
+    <div class="project-card" data-pdf="https://drive.google.com/file/d/1DANoJK3dT4KO2cx15d8tWNkyYZkYUdZi/view?usp=sharing" onclick="openPdf(this)">
       <div class="project-img">🥕</div>
       <div class="project-body">
         <h3 data-i18n="proj.p1.title">Application V-Fresh</h3>
@@ -241,7 +260,7 @@
         <div class="tags"><span class="tag">React Native</span><span class="tag">Expo</span><span class="tag">Supabase</span></div>
       </div>
     </div>
-    <div class="project-card">
+    <div class="project-card" data-pdf="https://drive.google.com/file/d/1a7_iqIOPtYHrwgzaIKBUgG50eoZtW3fQ/view?usp=sharing" onclick="openPdf(this)">
       <div class="project-img">🌱</div>
       <div class="project-body">
         <h3 data-i18n="proj.p2.title">ระบบการจัดการเกษตรอัจฉริยะ</h3>
@@ -257,7 +276,7 @@
         <div class="tags"><span class="tag">SQL</span><span class="tag">Database Design</span><span class="tag">Backend</span></div>
       </div>
     </div>
-    <div class="project-card">
+    <div class="project-card" data-pdf="https://drive.google.com/file/d/1VHvYFRuAO9Vy6GikAmccSmzvrfNdukvg/view?usp=sharing" onclick="openPdf(this)">
       <div class="project-img">🦐</div>
       <div class="project-body">
         <h3 data-i18n="proj.p4.title">ฟาร์มกุ้ง IoT</h3>
@@ -265,7 +284,7 @@
         <div class="tags"><span class="tag">IoT</span><span class="tag">Database</span><span class="tag">Sensors</span></div>
       </div>
     </div>
-    <div class="project-card">
+    <div class="project-card" data-pdf="https://drive.google.com/file/d/1HZfBWmmP_Ip2lQzZKT2FVIm_f-hydUu0/view?usp=sharing" onclick="openPdf(this)">
       <div class="project-img">🖥️</div>
       <div class="project-body">
         <h3 data-i18n="proj.p5.title">ออกแบบ CPU 8-bit</h3>
@@ -273,12 +292,20 @@
         <div class="tags"><span class="tag">VHDL</span><span class="tag">Verilog</span><span class="tag">FPGA</span><span class="tag">Xilinx</span></div>
       </div>
     </div>
-    <div class="project-card">
+    <div class="project-card" data-pdf="https://drive.google.com/file/d/1AQV4LdDOUfsZBX9IeWVjBqf1yILtf3_A/view?usp=sharing" onclick="openPdf(this)">
       <div class="project-img">📄</div>
       <div class="project-body">
         <h3 data-i18n="proj.p6.title">การจัดทำเอกสาร ISO 29110</h3>
         <p data-i18n="proj.p6.desc">จัดทำและบริหารจัดการเอกสารตามมาตรฐาน ISO 29110 สำหรับกระบวนการพัฒนาซอฟต์แวร์</p>
         <div class="tags"><span class="tag">ISO 29110</span><span class="tag">Documentation</span><span class="tag">SE</span></div>
+      </div>
+    </div>
+    <div class="project-card" data-pdf="https://drive.google.com/file/d/1fjkqMTIZZQc9PaTKvGWuKdNiFa65fEhf/view?usp=sharing" onclick="openPdf(this)">
+      <div class="project-img">🌐</div>
+      <div class="project-body">
+        <h3 data-i18n="proj.p7.title">วิจัยการออกแบบ Network Active-Active</h3>
+        <p data-i18n="proj.p7.desc">งานวิจัยการออกแบบระบบเครือข่ายแบบ Active-Active เพื่อเพิ่มความพร้อมใช้งาน (High Availability) และกระจายโหลดอย่างมีประสิทธิภาพ</p>
+        <div class="tags"><span class="tag">Network</span><span class="tag">Active-Active</span><span class="tag">High Availability</span><span class="tag">Research</span></div>
       </div>
     </div>
   </div>
@@ -292,7 +319,7 @@
       <div class="cert-body">
         <h3 data-i18n="cert.c1.title">AWS Academy - Machine Learning Foundations</h3>
         <p data-i18n="cert.c1.org">AWS Academy (20 ชั่วโมง)</p>
-        <p class="cert-date" data-i18n="cert.c1.date">📅 16 กุมภาพันธ์ 2026</p>
+        <p class="cert-date"><i class="fa-solid fa-calendar-days"></i> <span data-i18n="cert.c1.date">16 กุมภาพันธ์ 2026</span></p>
       </div>
     </div>
     <div class="cert-card" onclick="openModal(this)">
@@ -300,7 +327,7 @@
       <div class="cert-body">
         <h3 data-i18n="cert.c2.title">Data Science (45 Hours)</h3>
         <p data-i18n="cert.c2.org">Thai MOOC - มหาวิทยาลัยศรีนครินทรวิโรฒ</p>
-        <p class="cert-date" data-i18n="cert.c2.date">📅 6 มีนาคม 2026</p>
+        <p class="cert-date"><i class="fa-solid fa-calendar-days"></i> <span data-i18n="cert.c2.date">6 มีนาคม 2026</span></p>
       </div>
     </div>
     <div class="cert-card" onclick="openModal(this)">
@@ -308,7 +335,7 @@
       <div class="cert-body">
         <h3 data-i18n="cert.c3.title">Use of Technology for Research Development</h3>
         <p data-i18n="cert.c3.org">Thai MOOC - มหาวิทยาลัยศรีนครินทรวิโรฒ (6 ชั่วโมง)</p>
-        <p class="cert-date" data-i18n="cert.c3.date">📅 6 มีนาคม 2026</p>
+        <p class="cert-date"><i class="fa-solid fa-calendar-days"></i> <span data-i18n="cert.c3.date">6 มีนาคม 2026</span></p>
       </div>
     </div>
     <div class="cert-card" onclick="openModal(this)">
@@ -316,7 +343,7 @@
       <div class="cert-body">
         <h3 data-i18n="cert.c4.title">Competency for Teacher in Digital Age</h3>
         <p data-i18n="cert.c4.org">Thai MOOC - มหาวิทยาลัยศรีนครินทรวิโรฒ (6 ชั่วโมง)</p>
-        <p class="cert-date" data-i18n="cert.c4.date">📅 6 มีนาคม 2026</p>
+        <p class="cert-date"><i class="fa-solid fa-calendar-days"></i> <span data-i18n="cert.c4.date">6 มีนาคม 2026</span></p>
       </div>
     </div>
     <div class="cert-card" onclick="openModal(this)">
@@ -324,7 +351,7 @@
       <div class="cert-body">
         <h3 data-i18n="cert.c5.title">เครื่องมือ Cloud-Based ศตวรรษ 21</h3>
         <p data-i18n="cert.c5.org">Thai MOOC - มหาวิทยาลัยศรีปทุม (10 ชั่วโมง)</p>
-        <p class="cert-date" data-i18n="cert.c5.date">📅 2026</p>
+        <p class="cert-date"><i class="fa-solid fa-calendar-days"></i> <span data-i18n="cert.c5.date">2026</span></p>
       </div>
     </div>
     <div class="cert-card" onclick="openModal(this)">
@@ -332,7 +359,7 @@
       <div class="cert-body">
         <h3 data-i18n="cert.c6.title">โลจิสติกส์และโซ่อุปทานเบื้องต้น</h3>
         <p data-i18n="cert.c6.org">Thai MOOC - มหาวิทยาลัยศรีปทุม (10 ชั่วโมง)</p>
-        <p class="cert-date" data-i18n="cert.c6.date">📅 2026</p>
+        <p class="cert-date"><i class="fa-solid fa-calendar-days"></i> <span data-i18n="cert.c6.date">2026</span></p>
       </div>
     </div>
     <div class="cert-card" onclick="openModal(this)">
@@ -340,7 +367,7 @@
       <div class="cert-body">
         <h3 data-i18n="cert.c7.title">สุดยอดแนวคิดธุรกิจยุคดิจิทัล</h3>
         <p data-i18n="cert.c7.org">Thai MOOC - มหาวิทยาลัยศรีปทุม (10 ชั่วโมง)</p>
-        <p class="cert-date" data-i18n="cert.c7.date">📅 2026</p>
+        <p class="cert-date"><i class="fa-solid fa-calendar-days"></i> <span data-i18n="cert.c7.date">2026</span></p>
       </div>
     </div>
     <div class="cert-card" onclick="openModal(this)">
@@ -348,7 +375,7 @@
       <div class="cert-body">
         <h3 data-i18n="cert.c8.title">ทักษะ Coding และมัลติมีเดีย</h3>
         <p data-i18n="cert.c8.org">โรงเรียนดรุณาราชบุรี - งานสัปดาห์วันวิทยาศาสตร์</p>
-        <p class="cert-date" data-i18n="cert.c8.date">📅 ปีการศึกษา 2565</p>
+        <p class="cert-date"><i class="fa-solid fa-calendar-days"></i> <span data-i18n="cert.c8.date">ปีการศึกษา 2565</span></p>
       </div>
     </div>
   </div>
@@ -359,12 +386,18 @@
   <img id="modalImg" src="" alt="Certificate">
 </div>
 
+<div id="pdfModal" class="pdf-modal" onclick="if(event.target.id==='pdfModal')closePdf()">
+  <button class="modal-close" onclick="closePdf()">&times;</button>
+  <iframe id="pdfFrame" src="" title="PDF Viewer"></iframe>
+  <a id="pdfOpenNew" class="pdf-open-new" href="#" target="_blank" rel="noopener">เปิดในแท็บใหม่ ↗</a>
+</div>
+
 <section id="contact" class="fade-in" style="display:flex;flex-direction:column;align-items:center">
   <h2 class="section-title" data-i18n-html="contact.title">ติดต่อ<span>ผม</span></h2>
   <div class="contact">
     <p data-i18n="contact.desc">สนใจร่วมงาน ติดต่อผมได้เลย!</p>
-    <p style="margin-bottom:1rem"><strong style="color:var(--accent)">📧 Email:</strong> wongsakon20172547@gmail.com</p>
-    <p style="margin-bottom:2rem"><strong style="color:var(--accent)">📞 Tel:</strong> 063-3130850</p>
+    <p style="margin-bottom:1rem"><strong style="color:var(--accent)"><i class="fa-solid fa-envelope"></i> Email:</strong> wongsakon20172547@gmail.com</p>
+    <p style="margin-bottom:2rem"><strong style="color:var(--accent)"><i class="fa-solid fa-phone"></i> Tel:</strong> 063-3130850</p>
     <div class="socials">
       <a href="mailto:wongsakon20172547@gmail.com" class="social-link email" title="Email">
         <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
@@ -386,7 +419,7 @@
 </section>
 
 <footer>
-  <p>© 2026 My Portfolio. Made with ❤️</p>
+  <p>© 2026 My Portfolio. Made with <i class="fa-solid fa-heart" style="color:var(--accent2)"></i></p>
 </footer>
 
 <script>
@@ -400,15 +433,15 @@
       'nav.home':'หน้าแรก','nav.about':'เกี่ยวกับ','nav.education':'การศึกษา',
       'nav.skills':'ทักษะ','nav.projects':'ผลงาน','nav.certificates':'เกียรติบัตร','nav.contact':'ติดต่อ',
       'cert.title':'เกียรติ<span>บัตร</span>',
-      'cert.c1.title':'AWS Academy - Machine Learning Foundations','cert.c1.org':'AWS Academy (20 ชั่วโมง)','cert.c1.date':'📅 16 กุมภาพันธ์ 2026',
-      'cert.c2.title':'Data Science (45 ชั่วโมง)','cert.c2.org':'Thai MOOC - มหาวิทยาลัยศรีนครินทรวิโรฒ','cert.c2.date':'📅 6 มีนาคม 2026',
-      'cert.c3.title':'การใช้เทคโนโลยีเพื่อพัฒนาการวิจัย','cert.c3.org':'Thai MOOC - มหาวิทยาลัยศรีนครินทรวิโรฒ (6 ชั่วโมง)','cert.c3.date':'📅 6 มีนาคม 2026',
-      'cert.c4.title':'สมรรถนะครูยุคดิจิทัล','cert.c4.org':'Thai MOOC - มหาวิทยาลัยศรีนครินทรวิโรฒ (6 ชั่วโมง)','cert.c4.date':'📅 6 มีนาคม 2026',
-      'cert.c5.title':'เครื่องมือ Cloud-Based ศตวรรษ 21','cert.c5.org':'Thai MOOC - มหาวิทยาลัยศรีปทุม (10 ชั่วโมง)','cert.c5.date':'📅 2026',
-      'cert.c6.title':'โลจิสติกส์และโซ่อุปทานเบื้องต้น','cert.c6.org':'Thai MOOC - มหาวิทยาลัยศรีปทุม (10 ชั่วโมง)','cert.c6.date':'📅 2026',
-      'cert.c7.title':'สุดยอดแนวคิดธุรกิจยุคดิจิทัล','cert.c7.org':'Thai MOOC - มหาวิทยาลัยศรีปทุม (10 ชั่วโมง)','cert.c7.date':'📅 2026',
-      'cert.c8.title':'ทักษะ Coding และมัลติมีเดีย','cert.c8.org':'โรงเรียนดรุณาราชบุรี - งานสัปดาห์วันวิทยาศาสตร์','cert.c8.date':'📅 ปีการศึกษา 2565',
-      'hero.greet':'สวัสดีครับ 👋','hero.im':'ผมคือ','hero.name':'วงศกร ศรีทองเทศ',
+      'cert.c1.title':'AWS Academy - Machine Learning Foundations','cert.c1.org':'AWS Academy (20 ชั่วโมง)','cert.c1.date':'16 กุมภาพันธ์ 2026',
+      'cert.c2.title':'Data Science (45 ชั่วโมง)','cert.c2.org':'Thai MOOC - มหาวิทยาลัยศรีนครินทรวิโรฒ','cert.c2.date':'6 มีนาคม 2026',
+      'cert.c3.title':'การใช้เทคโนโลยีเพื่อพัฒนาการวิจัย','cert.c3.org':'Thai MOOC - มหาวิทยาลัยศรีนครินทรวิโรฒ (6 ชั่วโมง)','cert.c3.date':'6 มีนาคม 2026',
+      'cert.c4.title':'สมรรถนะครูยุคดิจิทัล','cert.c4.org':'Thai MOOC - มหาวิทยาลัยศรีนครินทรวิโรฒ (6 ชั่วโมง)','cert.c4.date':'6 มีนาคม 2026',
+      'cert.c5.title':'เครื่องมือ Cloud-Based ศตวรรษ 21','cert.c5.org':'Thai MOOC - มหาวิทยาลัยศรีปทุม (10 ชั่วโมง)','cert.c5.date':'2026',
+      'cert.c6.title':'โลจิสติกส์และโซ่อุปทานเบื้องต้น','cert.c6.org':'Thai MOOC - มหาวิทยาลัยศรีปทุม (10 ชั่วโมง)','cert.c6.date':'2026',
+      'cert.c7.title':'สุดยอดแนวคิดธุรกิจยุคดิจิทัล','cert.c7.org':'Thai MOOC - มหาวิทยาลัยศรีปทุม (10 ชั่วโมง)','cert.c7.date':'2026',
+      'cert.c8.title':'ทักษะ Coding และมัลติมีเดีย','cert.c8.org':'โรงเรียนดรุณาราชบุรี - งานสัปดาห์วันวิทยาศาสตร์','cert.c8.date':'ปีการศึกษา 2565',
+      'hero.greet':'สวัสดีครับ','hero.im':'ผมคือ','hero.name':'วงศกร ศรีทองเทศ',
       'hero.role':'Computer Engineer','hero.desc':'สร้างสรรค์เว็บไซต์ที่สวยงาม ใช้งานง่าย และตอบโจทย์ธุรกิจ',
       'hero.btnProjects':'ดูผลงาน →','hero.btnContact':'ติดต่อผม',
       'about.title':'เกี่ยวกับ<span> ผม</span>',
@@ -417,9 +450,9 @@
       'about.p3':'สนใจการเรียนรู้สิ่งใหม่ๆ และพร้อมเปิดรับโอกาสในการทำงานร่วมกับทีม เพื่อพัฒนาทักษะและสร้างผลงานที่มีคุณภาพ',
       'about.phone':'เบอร์:','about.lang':'ภาษา:','about.langVal':'ไทย, อังกฤษ',
       'edu.title':'การ<span>ศึกษา</span>',
-      'edu.uni':'🎓 มหาวิทยาลัยศรีปทุม','edu.uniYear':'2023 - ปัจจุบัน',
+      'edu.uni':'มหาวิทยาลัยศรีปทุม','edu.uniYear':'2023 - ปัจจุบัน',
       'edu.uniDegree':'ปริญญาตรี คณะเทคโนโลยี','edu.uniMajor':'สาขาวิศวกรรมคอมพิวเตอร์',
-      'edu.hs':'🏫 โรงเรียนดรุณาราชบุรี','edu.hsYear':'2020 - 2022',
+      'edu.hs':'โรงเรียนดรุณาราชบุรี','edu.hsYear':'2020 - 2022',
       'edu.hsDegree':'มัธยมศึกษาตอนปลาย','edu.hsMajor':'แผนการเรียน วิทย์ - คณิต',
       'skills.title':'ทักษะ<span>ของผม</span>',
       'skill.iot':'IoT & Hardware','skill.iotDesc':'ESP32, Arduino, ออกแบบเซ็นเซอร์',
@@ -437,6 +470,8 @@
       'proj.p5.desc':'ออกแบบการทำงานของ CPU 8 บิต เขียนโค้ดด้วยภาษา VHDL และ Verilog สำหรับ FPGA และ SoC ด้วย Xilinx',
       'proj.p6.title':'การจัดทำเอกสาร ISO 29110',
       'proj.p6.desc':'จัดทำและบริหารจัดการเอกสารตามมาตรฐาน ISO 29110 สำหรับกระบวนการพัฒนาซอฟต์แวร์',
+      'proj.p7.title':'วิจัยการออกแบบ Network Active-Active',
+      'proj.p7.desc':'งานวิจัยการออกแบบระบบเครือข่ายแบบ Active-Active เพื่อเพิ่มความพร้อมใช้งาน (High Availability) และกระจายโหลดอย่างมีประสิทธิภาพ',
       'contact.title':'ติดต่อ<span>ผม</span>',
       'contact.desc':'สนใจร่วมงาน ติดต่อผมได้เลย!'
     },
@@ -444,15 +479,15 @@
       'nav.home':'Home','nav.about':'About','nav.education':'Education',
       'nav.skills':'Skills','nav.projects':'Projects','nav.certificates':'Certificates','nav.contact':'Contact',
       'cert.title':'Certi<span>ficates</span>',
-      'cert.c1.title':'AWS Academy - Machine Learning Foundations','cert.c1.org':'AWS Academy (20 Hours)','cert.c1.date':'📅 Feb 16, 2026',
-      'cert.c2.title':'Data Science (45 Hours)','cert.c2.org':'Thai MOOC - Srinakharinwirot University','cert.c2.date':'📅 Mar 6, 2026',
-      'cert.c3.title':'Use of Technology for Research Development','cert.c3.org':'Thai MOOC - Srinakharinwirot University (6 Hours)','cert.c3.date':'📅 Mar 6, 2026',
-      'cert.c4.title':'Competency for Teacher in Digital Age','cert.c4.org':'Thai MOOC - Srinakharinwirot University (6 Hours)','cert.c4.date':'📅 Mar 6, 2026',
-      'cert.c5.title':'Cloud-Based Tools for 21st Century','cert.c5.org':'Thai MOOC - Sripatum University (10 Hours)','cert.c5.date':'📅 2026',
-      'cert.c6.title':'Introduction to Logistics & Supply Chain','cert.c6.org':'Thai MOOC - Sripatum University (10 Hours)','cert.c6.date':'📅 2026',
-      'cert.c7.title':'Digital Age Business Concepts','cert.c7.org':'Thai MOOC - Sripatum University (10 Hours)','cert.c7.date':'📅 2026',
-      'cert.c8.title':'Coding & Multimedia Skills','cert.c8.org':'Darunaratchaburi School - Science Week','cert.c8.date':'📅 Academic Year 2022',
-      'hero.greet':'Hello there 👋','hero.im':"I'm",'hero.name':'Wongsakon Sritongted',
+      'cert.c1.title':'AWS Academy - Machine Learning Foundations','cert.c1.org':'AWS Academy (20 Hours)','cert.c1.date':'Feb 16, 2026',
+      'cert.c2.title':'Data Science (45 Hours)','cert.c2.org':'Thai MOOC - Srinakharinwirot University','cert.c2.date':'Mar 6, 2026',
+      'cert.c3.title':'Use of Technology for Research Development','cert.c3.org':'Thai MOOC - Srinakharinwirot University (6 Hours)','cert.c3.date':'Mar 6, 2026',
+      'cert.c4.title':'Competency for Teacher in Digital Age','cert.c4.org':'Thai MOOC - Srinakharinwirot University (6 Hours)','cert.c4.date':'Mar 6, 2026',
+      'cert.c5.title':'Cloud-Based Tools for 21st Century','cert.c5.org':'Thai MOOC - Sripatum University (10 Hours)','cert.c5.date':'2026',
+      'cert.c6.title':'Introduction to Logistics & Supply Chain','cert.c6.org':'Thai MOOC - Sripatum University (10 Hours)','cert.c6.date':'2026',
+      'cert.c7.title':'Digital Age Business Concepts','cert.c7.org':'Thai MOOC - Sripatum University (10 Hours)','cert.c7.date':'2026',
+      'cert.c8.title':'Coding & Multimedia Skills','cert.c8.org':'Darunaratchaburi School - Science Week','cert.c8.date':'Academic Year 2022',
+      'hero.greet':'Hello there','hero.im':"I'm",'hero.name':'Wongsakon Sritongted',
       'hero.role':'Computer Engineer','hero.desc':'Creating beautiful, user-friendly websites that solve business challenges',
       'hero.btnProjects':'View Projects →','hero.btnContact':'Contact Me',
       'about.title':'About <span>Me</span>',
@@ -461,9 +496,9 @@
       'about.p3':'Always eager to learn new things and open to opportunities to work with a team to develop skills and produce quality work.',
       'about.phone':'Phone:','about.lang':'Languages:','about.langVal':'Thai, English',
       'edu.title':'Edu<span>cation</span>',
-      'edu.uni':'🎓 Sripatum University','edu.uniYear':'2023 - Present',
+      'edu.uni':'Sripatum University','edu.uniYear':'2023 - Present',
       'edu.uniDegree':"Bachelor's Degree, School of Technology",'edu.uniMajor':'Computer Engineering',
-      'edu.hs':'🏫 Darunaratchaburi School','edu.hsYear':'2020 - 2022',
+      'edu.hs':'Darunaratchaburi School','edu.hsYear':'2020 - 2022',
       'edu.hsDegree':'High School','edu.hsMajor':'Science - Mathematics Program',
       'skills.title':'My <span>Skills</span>',
       'skill.iot':'IoT & Hardware','skill.iotDesc':'ESP32, Arduino, Sensor Design',
@@ -481,6 +516,8 @@
       'proj.p5.desc':'Designed 8-bit CPU architecture, coded in VHDL and Verilog for FPGA and SoC using Xilinx',
       'proj.p6.title':'ISO 29110 Documentation',
       'proj.p6.desc':'Prepared and managed documentation following ISO 29110 standards for software development',
+      'proj.p7.title':'Active-Active Network Design Research',
+      'proj.p7.desc':'Research on designing Active-Active network architecture to improve high availability and efficiently distribute load',
       'contact.title':'Contact <span>Me</span>',
       'contact.desc':"Interested in collaborating? Feel free to reach out!"
     }
@@ -520,6 +557,41 @@
   function closeModal(){
     document.getElementById('certModal').classList.remove('active');
   }
+
+  function toEmbedUrl(url){
+    // Google Drive: https://drive.google.com/file/d/FILE_ID/view?... -> /preview
+    let m = url.match(/drive\.google\.com\/file\/d\/([^/]+)/);
+    if(m) return `https://drive.google.com/file/d/${m[1]}/preview`;
+    // Google Drive: https://drive.google.com/open?id=FILE_ID
+    m = url.match(/drive\.google\.com\/open\?id=([^&]+)/);
+    if(m) return `https://drive.google.com/file/d/${m[1]}/preview`;
+    // Google Docs: ...document/d/FILE_ID/edit -> /preview
+    m = url.match(/docs\.google\.com\/(document|presentation|spreadsheets)\/d\/([^/]+)/);
+    if(m) return `https://docs.google.com/${m[1]}/d/${m[2]}/preview`;
+    return url;
+  }
+  function toViewUrl(url){
+    const m = url.match(/drive\.google\.com\/file\/d\/([^/]+)/) ||
+              url.match(/drive\.google\.com\/open\?id=([^&]+)/);
+    if(m) return `https://drive.google.com/file/d/${m[1]}/view`;
+    return url;
+  }
+  function openPdf(card){
+    const pdfSrc = card.getAttribute('data-pdf');
+    if(!pdfSrc) return;
+    document.getElementById('pdfFrame').src = toEmbedUrl(pdfSrc);
+    document.getElementById('pdfOpenNew').href = toViewUrl(pdfSrc);
+    document.getElementById('pdfModal').classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+  function closePdf(){
+    document.getElementById('pdfModal').classList.remove('active');
+    document.getElementById('pdfFrame').src = '';
+    document.body.style.overflow = '';
+  }
+  document.addEventListener('keydown',e=>{
+    if(e.key==='Escape'){ closeModal(); closePdf(); }
+  });
 </script>
 
 </body>
